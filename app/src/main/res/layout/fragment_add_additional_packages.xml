@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:padding="20dp"
+    tools:context=".user.AddAdditionalPackagesFragment">
+
+    <TextView
+        android:id="@+id/txt_add_optional_extra_packages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/inter_bold"
+        android:gravity="center_horizontal"
+        android:text="Add Optional Extra Packages"
+        android:textSize="18sp"
+        app:drawableTint="#4D000000"
+        app:drawableTopCompat="@drawable/round_horizontal_rule_24"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ToggleButton
+        android:id="@+id/toggle_lunch_box"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:drawableLeft="@drawable/baseline_fastfood_24"
+        android:textOff="Lunch box"
+        android:textOn="Lunch box"
+        style="@style/ToggleButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_add_optional_extra_packages"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_sit_by_the_window"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:drawableLeft="@drawable/baseline_co_present_24"
+        android:textOff="Sit by the window"
+        android:textOn="Sit by the window"
+        style="@style/ToggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_add_optional_extra_packages"
+        app:layout_constraintStart_toEndOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_charging_port"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:drawableLeft="@drawable/baseline_charging_station_24"
+        android:textOff="Charging port"
+        android:textOn="Charging port"
+        style="@style/ToggleButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_lunch_box"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_wifi"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:drawableLeft="@drawable/baseline_wifi_24"
+        android:textOff="Wi-Fi"
+        android:textOn="Wi-Fi"
+        style="@style/ToggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_sit_by_the_window"
+        app:layout_constraintStart_toEndOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_smoking_area"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:drawableLeft="@drawable/baseline_smoking_rooms_24"
+        android:textOff="Smoking area"
+        android:textOn="Smoking area"
+        style="@style/ToggleButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_charging_port"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_pillow_and_blanket"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:drawableLeft="@drawable/baseline_bedtime_24"
+        android:textOff="Pillow &amp; blanket"
+        android:textOn="Pillow &amp; blanket"
+        style="@style/ToggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_wifi"
+        app:layout_constraintStart_toEndOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_extra_luggage"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:drawableLeft="@drawable/baseline_shopping_bag_24"
+        android:textOff="Extra luggage"
+        android:textOn="Extra luggage"
+        style="@style/ToggleButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_pillow_and_blanket"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <ToggleButton
+        android:id="@+id/toggle_reclining_seat"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:drawableLeft="@drawable/baseline_airline_seat_recline_extra_24"
+        android:textOff="Reclining seat"
+        android:textOn="Reclining seat"
+        style="@style/ToggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_pillow_and_blanket"
+        app:layout_constraintStart_toEndOf="@id/guideline" />
+
+    <RelativeLayout
+        android:id="@+id/btn_buy_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:padding="15dp"
+        android:background="@drawable/button_main_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggle_reclining_seat">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy Ticket"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:layout_toLeftOf="@id/txt_price"/>
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

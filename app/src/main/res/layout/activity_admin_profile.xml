@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    android:orientation="vertical"
+    tools:context=".admin.AdminProfileActivity">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/outline_arrow_circle_left_24"/>
+
+    <TextView
+        android:id="@+id/txt_admin_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin Profile"
+        style="@style/Title40sp"/>
+
+    <TextView
+        android:id="@+id/txt_dec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/inter"
+        android:text="This page displays your profile as an admin. You can also add a new admin by clicking the add admin button below."
+        android:textColor="#99000000"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:text="Username"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"/>
+    <TextView
+        android:id="@+id/txt_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:background="@drawable/edit_text_background"
+        android:text="dwiagungfebriyanto"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        android:drawableLeft="@drawable/baseline_alternate_email_24"
+        android:drawablePadding="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:text="Email"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"/>
+    <TextView
+        android:id="@+id/txt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:background="@drawable/edit_text_background"
+        android:text="dwiagungfebriyanto@mail.ugm.ac.id"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:drawablePadding="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:text="Birth date"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"/>
+    <TextView
+        android:id="@+id/txt_birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:background="@drawable/edit_text_background"
+        android:text="14/02/2003"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        android:drawableLeft="@drawable/baseline_calendar_month_24"
+        android:drawablePadding="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:text="Role"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"/>
+    <TextView
+        android:id="@+id/txt_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:background="@drawable/edit_text_background"
+        android:text="Admin"
+        android:textSize="16sp"
+        android:fontFamily="@font/inter"
+        android:drawableLeft="@drawable/baseline_lock_person_24"
+        android:drawablePadding="15dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Add Admin"
+        style="@style/Button"/>
+
+</LinearLayout>

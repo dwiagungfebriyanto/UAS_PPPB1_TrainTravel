@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/bottom_sheet_background"
+    tools:context=".admin.AddAdminFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Add New Admin"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
+        android:drawableTop="@drawable/round_horizontal_rule_24"
+        android:drawableTint="#4D000000"/>
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:drawableRight="@drawable/baseline_email_24"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:hint="Email"
+        android:fontFamily="@font/inter"
+        android:background="@drawable/edit_text_background"/>
+
+    <EditText
+        android:id="@+id/edt_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:drawableRight="@drawable/baseline_alternate_email_24"
+        android:singleLine="true"
+        android:padding="15dp"
+        android:hint="Username"
+        android:fontFamily="@font/inter"
+        android:background="@drawable/edit_text_background"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        app:passwordToggleEnabled="true"
+        app:hintEnabled="false"
+        app:passwordToggleTint="@color/black">
+        <EditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/baseline_alternate_email_24"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:hint="Password"
+            android:fontFamily="@font/inter"
+            android:background="@drawable/edit_text_background"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@drawable/edit_text_background">
+        <TextView
+            android:id="@+id/btn_birthdate"
+            android:clickable="true"
+            android:focusable="true"
+            android:hint="Birth date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/baseline_calendar_month_24"
+            android:textSize="18sp"/>
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Register New Admin"
+        style="@style/Button"/>
+
+</LinearLayout>

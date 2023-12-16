@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_sheet_background"
+    tools:context=".user.PurchasedTicketDetailFragment">
+
+    <TextView
+        android:id="@+id/txt_purchased_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/inter_bold"
+        android:gravity="center_horizontal"
+        android:text="Purchased Ticket Detail"
+        android:textSize="18sp"
+        app:drawableTint="#4D000000"
+        app:drawableTopCompat="@drawable/round_horizontal_rule_24"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_purchased_ticket"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/img_station"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@drawable/img_placeholder"
+                android:elevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/cards_ticket_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/img_station">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#0D407BFF">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:id="@+id/txt_train_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Train name"
+                            android:fontFamily="@font/inter_bold"
+                            android:textSize="18sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rp"
+                            android:fontFamily="@font/inter_bold"
+                            android:textSize="18sp"
+                            android:layout_toStartOf="@id/txt_price"/>
+                        <TextView
+                            android:id="@+id/txt_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:fontFamily="@font/inter_bold"
+                            android:textSize="18sp"
+                            android:layout_alignParentEnd="true"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_departure_destination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_below="@id/txt_train_name">
+
+                            <ImageView
+                                android:id="@+id/ic_departure"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/outline_fmd_good_24"
+                                app:tint="#80000000"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/txt_departure"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/inter_medium"
+                                android:singleLine="true"
+                                android:gravity="center_vertical"
+                                android:text="Departure"
+                                android:textSize="18sp"
+                                app:layout_constraintStart_toEndOf="@id/ic_departure"
+                                app:layout_constraintTop_toTopOf="@id/ic_departure"
+                                app:layout_constraintBottom_toBottomOf="@id/ic_departure"/>
+                            <TextView
+                                android:id="@+id/txt_departure_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:text="15.00"
+                                android:fontFamily="@font/inter"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/txt_departure"
+                                app:layout_constraintBottom_toBottomOf="@id/txt_departure"/>
+
+                            <View
+                                android:id="@+id/view_line"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#80000000"
+                                app:layout_constraintTop_toBottomOf="@id/ic_departure"
+                                app:layout_constraintStart_toEndOf="@id/ic_departure"
+                                app:layout_constraintBottom_toTopOf="@id/ic_destination"/>
+
+                            <View
+                                android:id="@+id/vertical_line"
+                                android:layout_width="1dp"
+                                android:layout_height="0dp"
+                                android:background="#80000000"
+                                app:layout_constraintBottom_toTopOf="@id/ic_destination"
+                                app:layout_constraintEnd_toStartOf="@+id/view_line"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/ic_departure" />
+
+                            <ImageView
+                                android:id="@+id/ic_destination"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/baseline_fmd_good_24"
+                                app:tint="@color/primary_blue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/view_line"/>
+
+                            <TextView
+                                android:id="@+id/txt_destination"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:singleLine="true"
+                                android:gravity="center_vertical"
+                                android:layout_marginStart="5dp"
+                                android:text="Destination"
+                                android:fontFamily="@font/inter_medium"
+                                android:textSize="18sp"
+                                app:layout_constraintStart_toEndOf="@id/ic_destination"
+                                app:layout_constraintTop_toTopOf="@id/ic_destination"
+                                app:layout_constraintBottom_toBottomOf="@id/ic_destination"/>
+                            <TextView
+                                android:id="@+id/txt_arrival_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:gravity="center_vertical"
+                                android:text="16.00"
+                                android:fontFamily="@font/inter"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/txt_destination"
+                                app:layout_constraintBottom_toBottomOf="@id/txt_destination"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_departure_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+                        <TextView
+                            android:id="@+id/label_departure_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Departure date"
+                            android:fontFamily="@font/inter"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/ic_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/baseline_calendar_month_24"
+                            android:layout_below="@id/label_departure_date"/>
+                        <TextView
+                            android:id="@+id/txt_departure_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center_vertical"
+                            android:text="6 December 2023"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp"
+                            android:layout_toRightOf="@id/ic_date"
+                            android:layout_alignTop="@id/ic_date"
+                            android:layout_alignBottom="@id/ic_date"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_class"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+                        <TextView
+                            android:id="@+id/label_class"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Class"
+                            android:fontFamily="@font/inter"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/ic_class"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/baseline_hotel_class_24"
+                            android:layout_below="@id/label_class"/>
+                        <TextView
+                            android:id="@+id/txt_class"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Executive"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp"
+                            android:layout_toRightOf="@id/ic_class"
+                            android:layout_alignTop="@id/ic_class"
+                            android:layout_alignBottom="@id/ic_class"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_trip_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+                        <TextView
+                            android:id="@+id/label_trip_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trip duration"
+                            android:fontFamily="@font/inter"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/ic_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/baseline_av_timer_24"
+                            android:layout_below="@id/label_trip_duration"/>
+                        <TextView
+                            android:id="@+id/txt_trip_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center_vertical"
+                            android:text="6 hour(s) 5 minute(s)"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp"
+                            android:layout_toRightOf="@id/ic_duration"
+                            android:layout_alignTop="@id/ic_duration"
+                            android:layout_alignBottom="@id/ic_duration"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_purchased_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+                        <TextView
+                            android:id="@+id/label_purchased_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Purchased date"
+                            android:fontFamily="@font/inter"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/ic_purchased_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/baseline_calendar_month_24"
+                            android:layout_below="@id/label_purchased_date"/>
+                        <TextView
+                            android:id="@+id/txt_purchased_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center_vertical"
+                            android:text="5 December 2023"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp"
+                            android:layout_toRightOf="@id/ic_purchased_date"
+                            android:layout_alignTop="@id/ic_purchased_date"
+                            android:layout_alignBottom="@id/ic_purchased_date"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_extra_packages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+                        <TextView
+                            android:id="@+id/label_extra_packages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Extra packages"
+                            android:fontFamily="@font/inter"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/txt_empty_packages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="You did not choose any additional packages."
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_lunch_box"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_fastfood_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Lunch box"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_sit_by_the_window"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_co_present_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Sit by the window"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_charging_port"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_charging_station_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Charging port"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_wifi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_wifi_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Wi-Fi"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_smoking_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_smoking_rooms_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Smoking area"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_pillow_and_blanket"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_bedtime_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Pillow &amp; blanket"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_extra_luggage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_shopping_bag_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Extra luggage"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:id="@+id/extra_reclining_seat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/baseline_airline_seat_recline_extra_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Reclining seat"
+                            android:fontFamily="@font/inter_medium"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:id="@+id/btn_delete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:layout_weight="1"
+                        android:text="Delete"
+                        android:textColor="#F44336"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/inter_bold"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                    <TextView
+                        android:id="@+id/btn_close"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:layout_weight="1"
+                        android:text="Close"
+                        android:textColor="@color/secondary_blue"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/inter_bold"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

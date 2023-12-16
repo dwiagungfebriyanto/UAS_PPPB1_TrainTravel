@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Train Travel</string>
+    <array name="station">
+        <!--Yogyakarta-->
+        <item>Tugu Yogyakarta</item>
+        <item>Lempuyangan</item>
+        <item>Sentolo</item>
+        <!--Jakarta-->
+        <item>Gambir</item>
+        <item>Sudirman</item>
+        <item>Jatinegara</item>
+        <!--Jawa Tengah-->
+        <item>Tawang</item>
+        <item>Purwokerto</item>
+        <item>Kroya</item>
+    </array>
+    <array name="train_name">
+        <item>Arlina Express</item>
+        <item>Argo Bromo Anggrek</item>
+        <item>Argo Lawu</item>
+        <item>Malioboro Express</item>
+        <item>Sancaka</item>
+    </array>
+    <array name="class_type">
+        <item>Economy</item>
+        <item>Business</item>
+        <item>Executive</item>
+    </array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#80FFFFFF"
+    android:layout_marginVertical="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/ic_favorite"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="3dp"
+            android:src="@drawable/baseline_bookmark_border_24"
+            app:tint="@color/secondary_blue"
+            android:layout_alignTop="@id/txt_train_name"
+            android:layout_alignBottom="@id/txt_train_name"/>
+        <TextView
+            android:id="@+id/txt_train_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Train name"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="18sp"
+            android:layout_toRightOf="@id/ic_favorite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/txt_price"/>
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="18sp"
+            android:layout_alignParentEnd="true"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_departure_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:layout_below="@id/txt_train_name">
+
+            <ImageView
+                android:id="@+id/ic_departure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_fmd_good_24"
+                app:tint="#80000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txt_departure"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/inter_medium"
+                android:singleLine="true"
+                android:text="Departure"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/ic_departure"
+                app:layout_constraintTop_toTopOf="@id/ic_departure"
+                app:layout_constraintBottom_toBottomOf="@id/ic_departure"/>
+            <TextView
+                android:id="@+id/txt_departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textAlignment="textEnd"
+                android:text="15.00"
+                android:fontFamily="@font/inter"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_departure"
+                app:layout_constraintBottom_toBottomOf="@id/txt_departure"/>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#80000000"
+                app:layout_constraintTop_toBottomOf="@id/ic_departure"
+                app:layout_constraintStart_toEndOf="@id/ic_departure"
+                app:layout_constraintBottom_toTopOf="@id/ic_destination"/>
+
+            <View
+                android:id="@+id/vertical_line"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#80000000"
+                app:layout_constraintBottom_toTopOf="@id/ic_destination"
+                app:layout_constraintEnd_toStartOf="@+id/view_line"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ic_departure" />
+
+            <ImageView
+                android:id="@+id/ic_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/baseline_fmd_good_24"
+                app:tint="@color/primary_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_line"/>
+
+            <TextView
+                android:id="@+id/txt_destination"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:singleLine="true"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:text="Destination"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/ic_destination"
+                app:layout_constraintTop_toTopOf="@id/ic_destination"
+                app:layout_constraintBottom_toBottomOf="@id/ic_destination"/>
+            <TextView
+                android:id="@+id/txt_arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="16.00"
+                android:fontFamily="@font/inter"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_destination"
+                app:layout_constraintBottom_toBottomOf="@id/txt_destination"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/txt_class"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="Class"
+            android:fontFamily="@font/inter"
+            android:background="@drawable/class_background"
+            android:textSize="16sp"
+            android:textColor="@color/accent_purple"
+            android:layout_below="@id/cl_departure_destination"/>
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="6/12/2023"
+            android:fontFamily="@font/inter"
+            android:textSize="16sp"
+            android:layout_below="@id/cl_departure_destination"
+            android:layout_toRightOf="@id/txt_class" />
+
+        <FrameLayout
+            android:id="@+id/btn_edit_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:background="@drawable/button_item"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/cl_departure_destination">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/baseline_edit_24"
+                app:tint="@color/white"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/btn_buy_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:background="@drawable/button_item"
+            android:text="BUY"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_below="@id/cl_departure_destination"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

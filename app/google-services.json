@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "400777582464",
+    "project_id": "train-travel-4956a",
+    "storage_bucket": "train-travel-4956a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400777582464:android:01cad6d679c3516703d365",
+        "android_client_info": {
+          "package_name": "com.example.traintravel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHFOu88NXEiZc4s_U853YqGa1Em4R3hF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/nav_home_icon"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/buyTicketFragment"
+        android:icon="@drawable/nav_buy_ticket_icon"
+        android:title="Buy Ticket"/>
+
+    <item
+        android:id="@+id/favoriteTicketFragment"
+        android:icon="@drawable/nav_favorite_ticket_icon"
+        android:title="Favorite Ticket"/>
+
+    <item
+        android:id="@+id/purchasedTicketFragment"
+        android:icon="@drawable/nav_purchased_ticket_icon"
+        android:title="Purchased Ticket"/>
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/nav_profile_icon"
+        android:title="Profile"/>
+</menu>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.traintravel.user.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/buyTicketFragment"
+        android:name="com.example.traintravel.user.BuyTicketFragment"
+        android:label="fragment_buy_ticket"
+        tools:layout="@layout/fragment_buy_ticket" />
+    <fragment
+        android:id="@+id/purchasedTicketFragment"
+        android:name="com.example.traintravel.user.PurchasedTicketFragment"
+        android:label="fragment_purchased_ticket"
+        tools:layout="@layout/fragment_purchased_ticket">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="www.purchasedticket.com"
+            app:action="android.intent.action.MY_ACTION"
+            app:mimeType="type/subtype"/>
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.traintravel.user.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_buyTicketFragment"
+            app:destination="@id/buyTicketFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_purchasedTicketFragment"
+            app:destination="@id/purchasedTicketFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favoriteTicketFragment"
+            app:destination="@id/favoriteTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteTicketFragment"
+        android:name="com.example.traintravel.user.FavoriteTicketFragment"
+        android:label="fragment_favorite_ticket"
+        tools:layout="@layout/fragment_favorite_ticket" />
+</navigation>
