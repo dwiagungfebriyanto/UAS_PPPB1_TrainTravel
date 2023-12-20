@@ -20,6 +20,7 @@ import com.example.traintravel.data.FavoriteTicketRoomDatabase
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.FragmentFavoriteTicketBinding
 import com.example.traintravel.ticket.FavoriteTicketAdapter
+import com.example.traintravel.ticket.TicketDetailFragment
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -58,7 +59,7 @@ class FavoriteTicketFragment : Fragment() {
             val adapterFavoriteTicket = FavoriteTicketAdapter(
                 favoriteTickets,
                 { favoriteTicket ->
-                    Toast.makeText(context, favoriteTicket.tripDuration, Toast.LENGTH_SHORT).show()
+                    TicketDetailFragment(null, favoriteTicket).show(parentFragmentManager, "Ticket Detail")
                 },
                 { favoriteTicket ->
                     deleteFavoriteTicket(favoriteTicket)

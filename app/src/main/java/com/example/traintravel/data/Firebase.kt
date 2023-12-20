@@ -121,18 +121,6 @@ object Firebase {
         }
     }
 
-    fun getUser(userId : String) : Users? {
-        var user: Users ?= null
-        usersCollectionRef.document(userId).get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                user = document.toObject(Users::class.java)
-            }
-        }.addOnFailureListener {
-            Log.d("FirebaseAuth", "User data not found: ", it)
-        }
-        return user
-    }
-
     fun getTicket(ticketId : String) : Ticket? {
         for (ticket in ticketsListLiveData.value!!) {
             if (ticketId == ticket.id) {

@@ -16,7 +16,7 @@ import java.util.Calendar
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private var yearOfBirth = 0
+    private var age = 0
     private var selectedDate = ""
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -35,11 +35,17 @@ class RegisterFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         val authActivity = requireActivity() as AuthActivity
         with(binding) {
+            btnToLogin.setOnClickListener {
+                authActivity.navigateToLogin()
+            }
+
             btnBirthdate.setOnClickListener {
                 showDatePicker()
             }
 
             btnRegister.setOnClickListener {
+                authActivity.progressBarVisibility(true)
+
                 val email = edtEmail.text.toString()
                 val username = edtUsername.text.toString()
                 val password = edtPassword.text.toString()
@@ -48,16 +54,15 @@ class RegisterFragment : Fragment() {
                     birthDate = selectedDate
                 )
 
-                val usernameAvailable = Firebase.getUser(username)
-
-                if (usernameAvailable == null) {
-                    if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
+                if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
+                    if (age >= 18) {
                         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                             val userId = firebaseAuth.currentUser?.uid
                             val userDocument = Firebase.usersCollectionRef.document(userId!!)
                             userDocument.set(newUser).addOnSuccessListener {
                                 Toast.makeText(context, "Data saved! Please login!", Toast.LENGTH_SHORT).show()
                                 authActivity.navigateToLogin()
+                                authActivity.progressBarVisibility(false)
                                 resetField()
                             }.addOnFailureListener {
                                 Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
@@ -66,10 +71,12 @@ class RegisterFragment : Fragment() {
                             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "You are not old enough to register!", Toast.LENGTH_SHORT).show()
+                        authActivity.progressBarVisibility(false)
                     }
                 } else {
-                    Toast.makeText(context, "Email $username already exists!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
+                    authActivity.progressBarVisibility(false)
                 }
             }
         }
@@ -86,14 +93,15 @@ class RegisterFragment : Fragment() {
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
+        val yearNow = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePicker = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            age = yearNow - year
             selectedDate = "$dayOfMonth/${month + 1}/$year"
             binding.btnBirthdate.text = selectedDate
-        }, year, month, dayOfMonth)
+        }, yearNow, month, dayOfMonth)
 
         datePicker.show()
     }

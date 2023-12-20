@@ -33,10 +33,18 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val authActivity = requireActivity() as AuthActivity
+
         with(binding) {
+            btnToRegister.setOnClickListener {
+                authActivity.navigateToREgister()
+            }
+
             btnLogin.setOnClickListener {
                 val email = edtEmail.text.toString()
                 val password = edtPassword.text.toString()
+
+                authActivity.progressBarVisibility(true)
 
                 if (email.isNotEmpty() && password.isNotEmpty()){
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
@@ -46,6 +54,7 @@ class LoginFragment : Fragment() {
                     }
                 } else {
                     Toast.makeText(context, "Please fill out all required forms!", Toast.LENGTH_SHORT).show()
+                    authActivity.progressBarVisibility(false)
                 }
             }
         }
@@ -64,7 +73,6 @@ class LoginFragment : Fragment() {
                 prefManager.saveEmail(firebaseAuth.currentUser?.email!!)
                 prefManager.setLoggedIn(true)
                 authActivity.checkLoginState()
-                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener {
             Log.d("FirebaseAuth", "User data not found: ", it)

@@ -21,6 +21,7 @@ import com.example.traintravel.ticket.TicketAdapter
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.data.Ticket
 import com.example.traintravel.databinding.FragmentBuyTicketBinding
+import com.example.traintravel.ticket.TicketDetailFragment
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -61,7 +62,7 @@ class BuyTicketFragment : Fragment() {
             adapterTicket = TicketAdapter(
                 tickets,
                 { ticket ->
-                    Toast.makeText(requireContext(), "Trip duration: ${ticket.tripDuration}", Toast.LENGTH_SHORT).show()
+                    TicketDetailFragment(ticket).show(parentFragmentManager, "Ticket Detail")
                 },
                 { ticket ->
                     AddAdditionalPackagesFragment(ticket).show(parentFragmentManager, "Add Extra Packages")

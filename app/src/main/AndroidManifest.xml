@@ -24,10 +24,7 @@
             android:exported="false" />
         <activity
             android:name=".auth.AuthActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
-        <activity
-            android:name=".admin.TicketDetailActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".admin.TicketFormActivity"

@@ -17,8 +17,5 @@ interface FavoriteTicketDao {
     fun deleteFavoriteTicket(favoriteTicket: FavoriteTicket)
 
     @Query("SELECT * FROM favorite_ticket_table WHERE user_id = :userId")
-    fun getFavoriteTicket(userId: String): List<FavoriteTicket>
-
-    @Query("SELECT * FROM favorite_ticket_table WHERE user_id = :userId")
     fun getFavoriteTicketLiveData(userId: String): LiveData<List<FavoriteTicket>>
 }

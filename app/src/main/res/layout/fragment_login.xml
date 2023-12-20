@@ -4,64 +4,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingHorizontal="40dp"
     android:orientation="vertical"
     tools:context=".auth.LoginFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Welcome\nBack"
-        style="@style/Title40sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="50dp"
-        android:fontFamily="@font/inter"
-        android:text="Please sign in to continue"
-        android:textColor="#99000000"
-        android:textSize="18sp"/>
-
-    <EditText
-        android:id="@+id/edt_email"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="15dp"
-        android:drawableRight="@drawable/baseline_email_24"
-        android:singleLine="true"
-        android:padding="15dp"
-        android:hint="Email"
-        android:fontFamily="@font/inter"
-        android:background="@drawable/edit_text_background"/>
+        android:layout_height="match_parent"
+        android:padding="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Welcome Back"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="30sp"
+                android:textColor="@color/black"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
-        app:hintEnabled="false"
-        app:passwordToggleTint="@color/black">
-        <EditText
-            android:id="@+id/edt_password"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/txt_new_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="New member? "
+                    android:textColor="#99000000"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/btn_to_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="Register"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="16sp"
+                    android:layout_alignBottom="@id/txt_new_member"
+                    android:layout_toEndOf="@id/txt_new_member"/>
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="15dp"
+                android:drawableRight="@drawable/baseline_email_24"
+                android:singleLine="true"
+                android:padding="15dp"
+                android:hint="Email"
+                android:fontFamily="@font/inter"
+                android:background="@drawable/edit_text_background"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true"
+                app:hintEnabled="false"
+                app:passwordToggleTint="@color/black">
+                <EditText
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/baseline_alternate_email_24"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:hint="Password"
+                    android:fontFamily="@font/inter"
+                    android:background="@drawable/edit_text_background"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/baseline_alternate_email_24"
-            android:inputType="textPassword"
-            android:padding="15dp"
-            android:hint="Password"
-            android:fontFamily="@font/inter"
-            android:background="@drawable/edit_text_background"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="50dp"
+            android:text="Login"
+            style="@style/Button"
+            android:layout_alignParentBottom="true"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Login"
-        style="@style/Button"/>
-
+    </RelativeLayout>
 </LinearLayout>

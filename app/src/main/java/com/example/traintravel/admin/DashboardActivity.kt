@@ -10,7 +10,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traintravel.auth.PrefManager
 import com.example.traintravel.auth.AuthActivity
@@ -18,6 +17,7 @@ import com.example.traintravel.R
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.ActivityDashboardBinding
 import com.example.traintravel.ticket.TicketAdapter
+import com.example.traintravel.ticket.TicketDetailFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class DashboardActivity : AppCompatActivity() {
@@ -93,13 +93,8 @@ class DashboardActivity : AppCompatActivity() {
         Firebase.ticketsListLiveData.observe(this@DashboardActivity) { tickets ->
             val adapterTicket = TicketAdapter(
                 tickets.sortedByDescending { Firebase.convertStringToDate(it.departureDate) },
-                { ticket -> 
-                    Toast.makeText(this@DashboardActivity, ticket.trainName, Toast.LENGTH_SHORT).show()
-                    startActivity(
-                        Intent(
-                            this@DashboardActivity, TicketDetailActivity::class.java
-                        ).putExtra("ticket", ticket)
-                    )
+                { ticket ->
+                    TicketDetailFragment(ticket).show(supportFragmentManager, "Ticket Detail")
                 }, 
                 { ticket ->
                     startActivity(Intent(this@DashboardActivity, TicketFormActivity::class.java).putExtra("ticket", ticket))

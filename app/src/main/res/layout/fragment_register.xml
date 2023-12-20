@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,27 +8,46 @@
     tools:context=".auth.RegisterFragment">
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="40dp"
+        android:padding="20dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="Create\nAccount"
-            style="@style/Title40sp"/>
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="Create Account"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="30sp"
+            android:textColor="@color/black"/>
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
-            android:fontFamily="@font/inter"
-            android:text="Please sign Up in to continue"
-            android:textColor="#99000000"
-            android:textSize="18sp"/>
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/txt_has_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="Already have an account? "
+                android:textColor="#99000000"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/btn_to_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="Login"
+                android:textColor="@color/primary_blue"
+                android:textSize="16sp"
+                android:layout_alignBottom="@id/txt_has_account"
+                android:layout_toEndOf="@id/txt_has_account"/>
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/edt_email"
@@ -89,14 +108,15 @@
                 android:textSize="18sp"/>
         </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Register"
-            style="@style/Button"/>
-
     </LinearLayout>
 
-</ScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Register"
+        style="@style/Button"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
