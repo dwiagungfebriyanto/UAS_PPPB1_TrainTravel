@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation("com.google.firebase:firebase-auth:22.3.0")
     ksp("androidx.room:room-compiler:2.6.1")
 
     testImplementation("junit:junit:4.13.2")

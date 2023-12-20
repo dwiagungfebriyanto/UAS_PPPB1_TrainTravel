@@ -38,8 +38,6 @@ class TicketFormActivity : AppCompatActivity() {
             var departureTime = ""
             var arrivalTime = ""
 
-
-
             val trainNameArray = resources.getStringArray(R.array.train_name)
             val trainAdapter = ArrayAdapter<String>(this@TicketFormActivity, R.layout.spinner_item, trainNameArray)
             spinnerTrainName.adapter = trainAdapter
@@ -92,7 +90,6 @@ class TicketFormActivity : AppCompatActivity() {
                     classPrice = TicketPricing.getClassPrice(classType)
                     priceChanged()
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 

@@ -26,14 +26,15 @@
         android:textSize="18sp"/>
 
     <EditText
-        android:id="@+id/edt_username"
+        android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:layout_marginBottom="15dp"
-        android:drawableRight="@drawable/baseline_alternate_email_24"
+        android:drawableRight="@drawable/baseline_email_24"
         android:singleLine="true"
         android:padding="15dp"
-        android:hint="Username"
+        android:hint="Email"
         android:fontFamily="@font/inter"
         android:background="@drawable/edit_text_background"/>
 

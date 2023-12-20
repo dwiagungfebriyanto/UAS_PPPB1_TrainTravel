@@ -17,12 +17,10 @@ class AdminProfileActivity : AppCompatActivity() {
         prefManager = PrefManager.getInstance(this)
 
         with(binding) {
-            val user = Firebase.getUser(prefManager.getUsername())
-
-            txtUsername.text = user?.username
-            txtEmail.text = user?.email
-            txtBirthdate.text = user?.birthDate
-            txtRole.text = user?.role
+            txtUsername.text = prefManager.getUsername()
+            txtEmail.text = prefManager.getUserEmail()
+            txtBirthdate.text = prefManager.getUserBirthdate()
+            txtRole.text = prefManager.getRole()
 
             btnAddAdmin.setOnClickListener {
                 AddAdminFragment().show(supportFragmentManager, "Add Admin")

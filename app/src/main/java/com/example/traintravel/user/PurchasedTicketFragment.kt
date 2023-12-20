@@ -34,7 +34,6 @@ class PurchasedTicketFragment : Fragment() {
     private fun observeTickets() {
         Firebase.purchasedTicketsListLiveData.observe(viewLifecycleOwner) { purchasedTickets ->
             val userPurchasedTicket = purchasedTickets.filter { it.userId == prefManager.getUserId() }.sortedByDescending { Firebase.convertStringToDate(it.purchaseDate) }
-            val userPurchasedTicketSorted = userPurchasedTicket.sortedBy { Firebase.convertStringToDate(it.purchaseDate) }
 
             val adapterTicket = PurchasedTicketAdapter(userPurchasedTicket) { purchasedTicket ->
                 PurchasedTicketDetailFragment(purchasedTicket).show(parentFragmentManager, "Purchased Ticket Detail")

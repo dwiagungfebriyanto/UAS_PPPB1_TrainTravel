@@ -18,6 +18,7 @@ import com.example.traintravel.data.FavoriteTicketDao
 import com.example.traintravel.data.FavoriteTicketRoomDatabase
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -25,6 +26,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var prefManager: PrefManager
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mFavoriteTicketDao: FavoriteTicketDao
     private lateinit var executorService: ExecutorService
     private lateinit var confirmationTxt: TextView
@@ -38,19 +40,19 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         prefManager = PrefManager.getInstance(requireContext())
+        firebaseAuth = FirebaseAuth.getInstance()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val user = Firebase.getUser(prefManager.getUsername())
 
         with(binding) {
-            txtUsername.text = user?.username
-            txtEmail.text = user?.email
-            txtBirthdate.text = user?.birthDate
-            txtFirstLetter.text = user?.username?.first().toString().uppercase()
+            txtUsername.text = prefManager.getUsername()
+            txtEmail.text = prefManager.getUserEmail()
+            txtBirthdate.text = prefManager.getUserBirthdate()
+            txtFirstLetter.text = prefManager.getUsername().first().toString().uppercase()
 
             btnLogout.setOnClickListener {
                 logout()
@@ -100,7 +102,8 @@ class ProfileFragment : Fragment() {
 
         // Menangani klik tombol Yes pada dialog
         yesTxt.setOnClickListener {
-            prefManager.setLoggedIn(false)
+            firebaseAuth.signOut()
+            prefManager.clear()
             startActivity(Intent(context, AuthActivity::class.java))
             requireActivity().finish()
             dialog.dismiss()

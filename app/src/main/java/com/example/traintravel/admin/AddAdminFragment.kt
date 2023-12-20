@@ -10,12 +10,14 @@ import com.example.traintravel.data.Firebase
 import com.example.traintravel.data.Users
 import com.example.traintravel.databinding.FragmentAddAdminBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 class AddAdminFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentAddAdminBinding? = null
     private val binding get() = _binding!!
     private var selectedDate = ""
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +31,7 @@ class AddAdminFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        firebaseAuth = FirebaseAuth.getInstance()
         with(binding) {
             btnBirthdate.setOnClickListener {
                 showDatePicker()
@@ -40,23 +43,25 @@ class AddAdminFragment : BottomSheetDialogFragment() {
                 val password = edtPassword.text.toString()
                 val newUser = Users(
                     role = "admin",
-                    email = email,
                     username = username,
-                    password = password,
                     birthDate = selectedDate
                 )
 
-                val usernameAvailable = Firebase.getUser(username)
-
-                if (usernameAvailable == null) {
-                    if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
-                        Firebase.addUser(newUser)
-                        dismiss()
-                    } else {
-                        Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
+                if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+                        val userId = firebaseAuth.currentUser?.uid
+                        val userDocument = Firebase.usersCollectionRef.document(userId!!)
+                        userDocument.set(newUser).addOnSuccessListener {
+                            Toast.makeText(context, "Successfully created an admin account!", Toast.LENGTH_SHORT).show()
+                            dismiss()
+                        }.addOnFailureListener {
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(context, "Username $username is not available!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

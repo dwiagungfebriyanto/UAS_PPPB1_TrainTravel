@@ -18,10 +18,12 @@ import com.example.traintravel.R
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.ActivityDashboardBinding
 import com.example.traintravel.ticket.TicketAdapter
+import com.google.firebase.auth.FirebaseAuth
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDashboardBinding
     private lateinit var prefManager: PrefManager
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var confirmationTxt: TextView
     private lateinit var cancelTxt: TextView
     private lateinit var yesTxt: TextView
@@ -30,7 +32,9 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         prefManager = PrefManager.getInstance(this)
+        firebaseAuth = FirebaseAuth.getInstance()
 
         with(binding) {
             btnAddTicket.setOnClickListener {
@@ -69,7 +73,8 @@ class DashboardActivity : AppCompatActivity() {
 
                 // Menangani klik tombol Yes pada dialog
                 yesTxt.setOnClickListener {
-                    prefManager.setLoggedIn(false)
+                    firebaseAuth.signOut()
+                    prefManager.clear()
                     startActivity(
                         Intent(this@DashboardActivity, AuthActivity::class.java)
                     )
@@ -87,7 +92,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun observeTickets() {
         Firebase.ticketsListLiveData.observe(this@DashboardActivity) { tickets ->
             val adapterTicket = TicketAdapter(
-                tickets, 
+                tickets.sortedByDescending { Firebase.convertStringToDate(it.departureDate) },
                 { ticket -> 
                     Toast.makeText(this@DashboardActivity, ticket.trainName, Toast.LENGTH_SHORT).show()
                     startActivity(

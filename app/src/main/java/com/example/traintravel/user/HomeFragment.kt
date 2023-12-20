@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.traintravel.auth.PrefManager
 import com.example.traintravel.data.Firebase
+import com.example.traintravel.data.PurchasedTicket
+import com.example.traintravel.data.Ticket
 import com.example.traintravel.databinding.FragmentHomeBinding
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -54,9 +56,13 @@ class HomeFragment : Fragment() {
                 }
 
             } else {
-                Toast.makeText(context, "RA KETEMU BLOK", Toast.LENGTH_SHORT).show()
+                cardUpcomingTrip.visibility = View.GONE
+                cardCalendarView.visibility = View.GONE
+                txtEmpty.visibility = View.VISIBLE
             }
         }
+
+        calendarViewHistory()
     }
 
     private fun getDate(departuredDate : String) : String {
@@ -64,5 +70,35 @@ class HomeFragment : Fragment() {
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
         val date: Date = inputFormat.parse(departuredDate) ?: Date()
         return outputFormat.format(date)
+    }
+
+    private fun calendarViewHistory() {
+        Firebase.purchasedTicketsListLiveData.observe(viewLifecycleOwner) { purchasedTickets ->
+            val userPurchasedTickets = purchasedTickets.filter { it.userId == prefManager.getUserId() }
+            val tickets: MutableList<Pair<PurchasedTicket, Ticket>> = mutableListOf()
+            for (purchasedTicket in userPurchasedTickets) {
+                val ticket = Firebase.getTicket(purchasedTicket.ticketId)
+                if (ticket != null) {
+                    val pair = Pair(purchasedTicket, ticket)
+                    tickets.add(pair)
+                }
+            }
+
+            binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                val selectedDate = "$dayOfMonth/${month + 1}/$year"
+                var hasTrip = false
+                for (ticket in tickets) {
+                    if (selectedDate == ticket.second.departureDate) {
+                        hasTrip = true
+                        Toast.makeText(context, "You found a trip! Wait...", Toast.LENGTH_SHORT).show()
+                        PurchasedTicketDetailFragment(ticket.first).show(parentFragmentManager, "Purchased Ticket Detail")
+                        break
+                    }
+                }
+                if (!hasTrip) {
+                    Toast.makeText(context, "No trip", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

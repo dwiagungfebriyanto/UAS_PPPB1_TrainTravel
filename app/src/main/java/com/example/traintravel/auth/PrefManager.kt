@@ -10,8 +10,9 @@ class PrefManager private constructor(context: Context) {
         private const val PREFS_FILENAME = "AuthAppPrefs"
         private const val KEY_IS_LOGGED_IN = "isLoggedIn"
         private const val KEY_ID = "id"
+        private const val KEY_EMAIL = "email"
         private const val KEY_USERNAME = "username"
-        private const val KEY_PASSWORD = "password"
+        private const val KEY_BIRTHDATE = "birthdate"
         private const val KEY_ROLE = "role"
 
         @Volatile
@@ -46,15 +47,21 @@ class PrefManager private constructor(context: Context) {
         editor.apply()
     }
 
+    fun saveEmail(email: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(KEY_EMAIL, email)
+        editor.apply()
+    }
+
     fun saveUsername(username: String) {
         val editor = sharedPreferences.edit()
         editor.putString(KEY_USERNAME, username)
         editor.apply()
     }
 
-    fun savePassword(password: String) {
+    fun saveBirthDate(birthdate: String) {
         val editor = sharedPreferences.edit()
-        editor.putString(KEY_PASSWORD, password)
+        editor.putString(KEY_BIRTHDATE, birthdate)
         editor.apply()
     }
 
@@ -68,12 +75,16 @@ class PrefManager private constructor(context: Context) {
         return sharedPreferences.getString(KEY_ID, "") ?: ""
     }
 
+    fun getUserEmail(): String {
+        return sharedPreferences.getString(KEY_EMAIL, "") ?: ""
+    }
+
     fun getUsername(): String {
         return sharedPreferences.getString(KEY_USERNAME, "") ?: ""
     }
 
-    fun getPassword(): String {
-        return sharedPreferences.getString(KEY_PASSWORD, "") ?: ""
+    fun getUserBirthdate(): String {
+        return sharedPreferences.getString(KEY_BIRTHDATE, "") ?: ""
     }
 
     fun getRole(): String {

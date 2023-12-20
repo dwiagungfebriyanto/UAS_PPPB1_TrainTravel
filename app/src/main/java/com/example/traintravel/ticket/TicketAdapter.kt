@@ -52,11 +52,6 @@ class TicketAdapter (
                     btnEditTicket.setOnClickListener {
                         onClickButton(ticket)
                     }
-                    if (adapterPosition == listTicket.size - 1) {
-                        val params = itemView.layoutParams as RecyclerView.LayoutParams
-                        params.bottomMargin = 250
-                        itemView.layoutParams = params
-                    }
                 } else {
                     for (favoriteTicket in listFavoriteTicket!!) {
                         if (ticket.id == favoriteTicket.ticketId) {

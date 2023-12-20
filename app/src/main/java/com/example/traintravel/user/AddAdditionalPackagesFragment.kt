@@ -33,7 +33,7 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
     private var totalPrice = 0
     private var activePackages = mutableSetOf<String>()
     private val channelId = "SUCCESSFUL_PURCHASE"
-    private val notifId = 0
+    private var notifId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -142,6 +142,9 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                         PendingIntent.FLAG_MUTABLE
                     } else { 0 }
 
+                    val notificationId = System.currentTimeMillis().toInt() + notifId
+                    notifId++
+
                     val intent = Intent(requireContext(), SplashActivity::class.java)
                         .putExtra("ticketId", ticket.id)
                     val pendingIntent = PendingIntent.getActivity(
@@ -162,16 +165,17 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                                 .addLine("Destination station: ${ticket.destinationStation}")
                         )
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setAutoCancel(true)
                         .addAction(0, "Purchased Ticket Detail", pendingIntent)
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
                         val notifChannel = NotificationChannel(channelId, "Successful Purchase", NotificationManager.IMPORTANCE_DEFAULT)
                         with(notifManager) {
                             createNotificationChannel(notifChannel)
-                            notify(notifId, builder.build())
+                            notify(notificationId, builder.build())
                         }
                     } else {
-                        notifManager.notify(notifId, builder.build())
+                        notifManager.notify(notificationId, builder.build())
                     }
                     dismiss()
                 }

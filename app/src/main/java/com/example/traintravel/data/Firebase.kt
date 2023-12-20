@@ -3,15 +3,13 @@ package com.example.traintravel.data
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
-import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 object Firebase {
-    private val usersCollectionRef = FirebaseFirestore.getInstance().collection("users")
+    val usersCollectionRef = FirebaseFirestore.getInstance().collection("users")
     val usersListLiveData : MutableLiveData<List<Users>> by lazy {
         MutableLiveData<List<Users>>()
     }
@@ -56,18 +54,6 @@ object Firebase {
         }
     }
 
-    fun observeUser() {
-        usersCollectionRef.addSnapshotListener { snapshots, error ->
-            if (error != null) {
-                Log.d("Firebase", "Error listening for users changes", error)
-            }
-            val users = snapshots?.toObjects(Users::class.java)
-            if (users != null) {
-                usersListLiveData.postValue(users)
-            }
-        }
-    }
-
     fun observePurchasedTicket() {
         purchasedTicketsCollectionRef.addSnapshotListener { snapshots, error ->
             if (error != null) {
@@ -76,15 +62,6 @@ object Firebase {
             val purchasedTickets = snapshots?.toObjects(PurchasedTicket::class.java)
             if (purchasedTickets != null) {
                 purchasedTicketsListLiveData.postValue(purchasedTickets)
-            }
-        }
-    }
-
-    fun addUser(user : Users) {
-        usersCollectionRef.add(user).addOnSuccessListener { documentReference ->
-            user.id = documentReference.id
-            documentReference.set(user).addOnFailureListener {
-                Log.d("Firebase", "Error adding user id: ", it)
             }
         }
     }
@@ -144,28 +121,22 @@ object Firebase {
         }
     }
 
-    fun getUser(username : String) : Users? {
-        for (user in usersListLiveData.value!!) {
-            if (username == user.username) {
-                return user
+    fun getUser(userId : String) : Users? {
+        var user: Users ?= null
+        usersCollectionRef.document(userId).get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                user = document.toObject(Users::class.java)
             }
+        }.addOnFailureListener {
+            Log.d("FirebaseAuth", "User data not found: ", it)
         }
-        return null
+        return user
     }
 
     fun getTicket(ticketId : String) : Ticket? {
         for (ticket in ticketsListLiveData.value!!) {
             if (ticketId == ticket.id) {
                 return ticket
-            }
-        }
-        return null
-    }
-
-    fun getPurchasedTicket(purchasedTicketId : String) : PurchasedTicket? {
-        for (purchasedTicket in purchasedTicketsListLiveData.value!!) {
-            if (purchasedTicketId == purchasedTicket.id) {
-                return purchasedTicket
             }
         }
         return null

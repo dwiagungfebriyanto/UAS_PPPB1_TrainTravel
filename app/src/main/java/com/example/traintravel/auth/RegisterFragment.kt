@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.traintravel.data.Firebase
 import com.example.traintravel.data.Users
 import com.example.traintravel.databinding.FragmentRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 class RegisterFragment : Fragment() {
@@ -17,6 +18,7 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private var yearOfBirth = 0
     private var selectedDate = ""
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +32,8 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        firebaseAuth = FirebaseAuth.getInstance()
+        val authActivity = requireActivity() as AuthActivity
         with(binding) {
             btnBirthdate.setOnClickListener {
                 showDatePicker()
@@ -40,9 +44,7 @@ class RegisterFragment : Fragment() {
                 val username = edtUsername.text.toString()
                 val password = edtPassword.text.toString()
                 val newUser = Users(
-                    email = email,
                     username = username,
-                    password = password,
                     birthDate = selectedDate
                 )
 
@@ -50,15 +52,35 @@ class RegisterFragment : Fragment() {
 
                 if (usernameAvailable == null) {
                     if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
-                        Firebase.addUser(newUser)
-                        (requireActivity() as AuthActivity).viewPager2.setCurrentItem(1, true)
+                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+                            val userId = firebaseAuth.currentUser?.uid
+                            val userDocument = Firebase.usersCollectionRef.document(userId!!)
+                            userDocument.set(newUser).addOnSuccessListener {
+                                Toast.makeText(context, "Data saved! Please login!", Toast.LENGTH_SHORT).show()
+                                authActivity.navigateToLogin()
+                                resetField()
+                            }.addOnFailureListener {
+                                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(context, "Username $username is not available!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Email $username already exists!", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun resetField() {
+        with(binding) {
+            edtEmail.setText("")
+            edtUsername.setText("")
+            edtPassword.setText("")
+            btnBirthdate.text = ""
         }
     }
 
@@ -70,7 +92,7 @@ class RegisterFragment : Fragment() {
 
         val datePicker = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
             selectedDate = "$dayOfMonth/${month + 1}/$year"
-            binding.btnBirthdate.setText(selectedDate)
+            binding.btnBirthdate.text = selectedDate
         }, year, month, dayOfMonth)
 
         datePicker.show()
