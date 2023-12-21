@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// Fragment untuk menampilkan halaman utama pengguna, termasuk informasi perjalanan mendatang dan riwayat pembelian tiket
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -34,12 +35,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefManager = PrefManager.getInstance(requireContext())
 
+        // Mendapatkan informasi perjalanan mendatang dan tiket yang telah dibeli
         val (upcomingTrip, purchasedTicket) = Firebase.getUpcomingTripTicket(prefManager.getUserId())
 
         with(binding) {
+            // Menampilkan pesan selamat datang kepada pengguna
             txtHome.text = "Hi, ${prefManager.getUsername()}!"
 
             if (upcomingTrip != null) {
+                // Menampilkan detail perjalanan mendatang jika ada
                 txtTrainName.text       = upcomingTrip.trainName
                 txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(purchasedTicket?.totalPrice)
                 txtDeparture.text       = upcomingTrip.departureStation
@@ -50,33 +54,42 @@ class HomeFragment : Fragment() {
                 txtDepartureDate.text   = getDate(upcomingTrip.departureDate)
 
                 if (purchasedTicket != null) {
+                    // Menambahkan aksi klik pada tombol untuk melihat detail tiket yang telah dibeli
                     btnToDetailTicket.setOnClickListener {
                         PurchasedTicketDetailFragment(purchasedTicket).show(parentFragmentManager, "Purchased Ticket Detail")
                     }
                 }
 
             } else {
-                cardUpcomingTrip.visibility = View.GONE
-                cardCalendarView.visibility = View.GONE
+                // Menyembunyikan beberapa elemen jika tidak ada upcoming trip
+                txtDepartureDate.visibility = View.GONE
+                btnToDetailTicket.visibility = View.GONE
+                classDuration.visibility = View.GONE
                 txtEmpty.visibility = View.VISIBLE
             }
         }
 
+        // Menambahkan listener untuk menangani tampilan kalendar dan menampilkan detail tiket jika ditemukan pada tanggal yang dipilih
         calendarViewHistory()
     }
 
-    private fun getDate(departuredDate : String) : String {
+    // Mengonversi format tanggal dari "dd/MM/yyyy" ke "d MMMM yyyy"
+    private fun getDate(departuredDate: String): String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
         val date: Date = inputFormat.parse(departuredDate) ?: Date()
         return outputFormat.format(date)
     }
 
+
+    // Menangani tampilan kalendar untuk menampilkan riwayat pembelian tiket pada tanggal tertentu
     private fun calendarViewHistory() {
         Firebase.purchasedTicketsListLiveData.observe(viewLifecycleOwner) { purchasedTickets ->
+            // Memfilter tiket yang telah dibeli oleh pengguna
             val userPurchasedTickets = purchasedTickets.filter { it.userId == prefManager.getUserId() }
             val tickets: MutableList<Pair<PurchasedTicket, Ticket>> = mutableListOf()
             for (purchasedTicket in userPurchasedTickets) {
+                // Mendapatkan informasi tiket yang sesuai dengan tiket yang telah dibeli
                 val ticket = Firebase.getTicket(purchasedTicket.ticketId)
                 if (ticket != null) {
                     val pair = Pair(purchasedTicket, ticket)
@@ -84,6 +97,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
+            // Menangani aksi ketika pengguna memilih tanggal pada kalendar
             binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
                 val selectedDate = "$dayOfMonth/${month + 1}/$year"
                 var hasTrip = false

@@ -18,6 +18,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Konfigurasi tampilan status bar dan navigation bar
         window.apply {
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             statusBarColor = Color.TRANSPARENT
@@ -30,9 +31,11 @@ class AuthActivity : AppCompatActivity() {
         prefManager = PrefManager.getInstance(this)
 
         with(binding) {
+            // Inisialisasi adapter untuk ViewPager
             viewPager.adapter = TabAdapter(this@AuthActivity)
             viewPager2 = viewPager
 
+            // Menyinkronkan TabLayout dengan ViewPager
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when(position) {
                     0 -> "REGISTER"
@@ -41,6 +44,7 @@ class AuthActivity : AppCompatActivity() {
                 }
             }.attach()
 
+            // Mengatur listener untuk menangani perubahan scroll pada ScrollView
             scrollView.viewTreeObserver.addOnScrollChangedListener {
                 if (scrollView.scrollY > 800 && rlWelcome.visibility == View.VISIBLE) {
                     rlWelcome.visibility = View.INVISIBLE
@@ -50,14 +54,17 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    // Method untuk navigasi ke halaman login
     fun navigateToLogin() {
         viewPager2.setCurrentItem(1, true)
     }
 
+    // Method untuk navigasi ke halaman register
     fun navigateToREgister() {
         viewPager2.setCurrentItem(0, true)
     }
 
+    // Method untuk memeriksa status login pengguna
     fun checkLoginState() {
         if (prefManager.isLoggedIn()) {
             Toast.makeText(this@AuthActivity, "Login successful!", Toast.LENGTH_SHORT).show()
@@ -71,6 +78,7 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    // Method untuk mengatur keberlanjutan atau ketidakberlanjutan progressBar
     fun progressBarVisibility(isVisible : Boolean) {
         with(binding) {
             if (isVisible) {

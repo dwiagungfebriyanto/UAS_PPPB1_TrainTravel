@@ -1,14 +1,18 @@
 package com.example.traintravel.ticket
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traintravel.auth.PrefManager
 import com.example.traintravel.R
 import com.example.traintravel.data.FavoriteTicket
+import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.ItemTicketBinding
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -29,7 +33,9 @@ class FavoriteTicketAdapter (
             prefManager = PrefManager.getInstance(binding.root.context)
 
             with(binding) {
+                // Menetapkan ikon favorit
                 icFavorite.setImageResource(R.drawable.baseline_bookmark_24)
+                // Menetapkan informasi tiket ke tampilan
                 txtTrainName.text       = ticket.trainName
                 txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(ticket.price)
                 txtDeparture.text       = ticket.departureStation
@@ -39,17 +45,27 @@ class FavoriteTicketAdapter (
                 txtClass.text           = ticket.classType
                 txtDate.text            = getDate(ticket.departureDate)
 
+                // Menangani klik pada item tiket
                 itemView.setOnClickListener {
                     onClickFavoriteTicket(ticket)
                 }
 
+                // Menangani klik tahan pada item tiket
                 itemView.setOnLongClickListener {
                     onLongClickFavoriteTicket(ticket)
                     true
                 }
 
-                btnBuyTicket.setOnClickListener {
-                    onClickBuyTicket(ticket.ticketId)
+                // Menangani visibilitas tombol beli tiket dan warna latar belakang card
+                if (Firebase.convertStringToDate(ticket.departureDate) < Calendar.getInstance().time) {
+                    btnBuyTicket.visibility = View.INVISIBLE
+                    btnEditTicket.visibility = View.INVISIBLE
+                    card.setCardBackgroundColor(Color.parseColor("#33F44336"))
+                } else {
+                    // Menangani klik pada tombol beli tiket
+                    btnBuyTicket.setOnClickListener {
+                        onClickBuyTicket(ticket.ticketId)
+                    }
                 }
             }
         }
@@ -68,6 +84,7 @@ class FavoriteTicketAdapter (
         holder.bind(listFavoriteTicket[position])
     }
 
+    // Mengonversi format tanggal
     private fun getDate(departuredDate : String) : String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())

@@ -28,7 +28,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class TicketDetailFragment(private val ticket: Ticket? = null, private val favoriteTicket: FavoriteTicket? = null) : BottomSheetDialogFragment() {
+class TicketDetailFragment(
+    private val ticket: Ticket? = null,
+    private val favoriteTicket: FavoriteTicket? = null
+) : BottomSheetDialogFragment() {
     private var _binding : FragmentTicketDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var prefManager: PrefManager
@@ -52,6 +55,7 @@ class TicketDetailFragment(private val ticket: Ticket? = null, private val favor
 
         with(binding) {
             if (ticket != null) {
+                // Memuat gambar stasiun dengan efek pemotongan dan pembulatan sudut
                 val multi = MultiTransformation<Bitmap>(
                     CenterCrop(),
                     RoundedCornersTransformation(35, 0)
@@ -62,6 +66,7 @@ class TicketDetailFragment(private val ticket: Ticket? = null, private val favor
                     .placeholder(R.drawable.img_placeholder)
                     .into(imgStation)
 
+                // Menetapkan informasi tiket ke tampilan
                 txtTrainName.text       = ticket.trainName
                 txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(ticket.price)
                 txtDeparture.text       = ticket.departureStation
@@ -101,7 +106,7 @@ class TicketDetailFragment(private val ticket: Ticket? = null, private val favor
 
                         // Menangani klik tombol Yes pada dialog
                         yesTxt.setOnClickListener {
-                            // Menghapus kontak dan menutup activity
+                            // Menghapus tiket dan menutup fragment
                             Firebase.deleteTicket(ticket)
                             dialog.dismiss()
                             dismiss()
@@ -112,8 +117,10 @@ class TicketDetailFragment(private val ticket: Ticket? = null, private val favor
                     }
                 }
             } else if (favoriteTicket != null) {
+                // Mengatur visibilitas gambar stasiun menjadi tidak terlihat
                 imgStation.visibility = View.GONE
 
+                // Menetapkan informasi tiket favorit ke tampilan
                 txtTrainName.text       = favoriteTicket.trainName
                 txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(favoriteTicket.price)
                 txtDeparture.text       = favoriteTicket.departureStation
@@ -125,14 +132,17 @@ class TicketDetailFragment(private val ticket: Ticket? = null, private val favor
                 txtTripDuration.text    = favoriteTicket.tripDuration
             }
 
+            // Menangani klik tombol Close
             btnClose.setOnClickListener {
                 dismiss()
             }
 
+            // Menyesuaikan visibilitas tombol Delete berdasarkan peran pengguna
             btnDelete.visibility = if (!prefManager.isAdmin()) View.GONE else View.VISIBLE
         }
     }
 
+    // Mengonversi format tanggal
     private fun getDate(departuredDate : String) : String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())

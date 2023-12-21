@@ -9,21 +9,25 @@ import java.util.Date
 import java.util.Locale
 
 object Firebase {
+    // Referensi ke koleksi "users" di Firestore
     val usersCollectionRef = FirebaseFirestore.getInstance().collection("users")
     val usersListLiveData : MutableLiveData<List<Users>> by lazy {
         MutableLiveData<List<Users>>()
     }
 
+    // Referensi ke koleksi "tickets" di Firestore
     private val ticketsCollectionRef = FirebaseFirestore.getInstance().collection("tickets")
     val ticketsListLiveData : MutableLiveData<List<Ticket>> by lazy {
         MutableLiveData<List<Ticket>>()
     }
 
+    // Referensi ke koleksi "purchasedTickets" di Firestore
     private val purchasedTicketsCollectionRef = FirebaseFirestore.getInstance().collection("purchasedTickets")
     val purchasedTicketsListLiveData : MutableLiveData<List<PurchasedTicket>> by lazy {
         MutableLiveData<List<PurchasedTicket>>()
     }
 
+    // Mendengarkan perubahan data pada koleksi "users", "tickets", dan "purchasedTickets" di Firestore
     fun observeDataChanges() {
         usersCollectionRef.addSnapshotListener { snapshots, error ->
             if (error != null) {
@@ -54,6 +58,7 @@ object Firebase {
         }
     }
 
+    // Menambahkan listener perubahan data pada koleksi "purchasedTickets" di Firestore
     fun observePurchasedTicket() {
         purchasedTicketsCollectionRef.addSnapshotListener { snapshots, error ->
             if (error != null) {
@@ -66,6 +71,7 @@ object Firebase {
         }
     }
 
+    // Menambahkan data tiket ke koleksi "tickets" di Firestore
     fun addTicket(ticket: Ticket) {
         ticketsCollectionRef.add(ticket).addOnSuccessListener { documentReference ->
             ticket.id = documentReference.id
@@ -75,23 +81,25 @@ object Firebase {
         }
     }
 
+    // Memperbarui data tiket pada koleksi "tickets" di Firestore
     fun updateTicket(ticket: Ticket) {
         ticketsCollectionRef.document(ticket.id).set(ticket).addOnFailureListener {
             Log.d("Firebase", "Error updating ticket", it)
         }
     }
 
+    // Menghapus data tiket dari koleksi "tickets" di Firestore
     fun deleteTicket(ticket: Ticket) {
         if (ticket.id.isEmpty()) {
             Log.d("Firebase", "Error delete item: ticket Id is empty!")
             return
         }
-        // Menghapus dokumen ticket dari Firestore berdasarkan ID
         ticketsCollectionRef.document(ticket.id).delete().addOnFailureListener {
             Log.d("Firebase", "Error deleting ticket", it)
         }
     }
 
+    // Menambahkan data tiket yang dibeli ke koleksi "purchasedTickets" di Firestore
     fun addPurchasedTicket(purchasedTicket: PurchasedTicket) : Boolean {
         var isAdded = false
         for (ticket in purchasedTicketsListLiveData.value!!) {
@@ -110,17 +118,18 @@ object Firebase {
         return isAdded
     }
 
+    // Menghapus data tiket yang dibeli dari koleksi "purchasedTickets" di Firestore
     fun deletePurchasedTicket(purchasedTicket: PurchasedTicket) {
         if (purchasedTicket.id.isEmpty()) {
             Log.d("Firebase", "Error delete item: ticket Id is empty!")
             return
         }
-        // Menghapus dokumen ticket dari Firestore berdasarkan ID
         purchasedTicketsCollectionRef.document(purchasedTicket.id).delete().addOnFailureListener {
             Log.d("Firebase", "Error deleting purchased ticket", it)
         }
     }
 
+    // Mendapatkan objek Tiket berdasarkan ID
     fun getTicket(ticketId : String) : Ticket? {
         for (ticket in ticketsListLiveData.value!!) {
             if (ticketId == ticket.id) {
@@ -130,6 +139,7 @@ object Firebase {
         return null
     }
 
+    // Mendapatkan objek Tiket yang dibeli berdasarkan ID Tiket dan ID Pengguna
     fun getPurchasedTicket(ticketId : String, userId : String) : PurchasedTicket? {
         for (purchasedTicket in purchasedTicketsListLiveData.value!!) {
             if (purchasedTicket.ticketId == ticketId && purchasedTicket.userId == userId) {
@@ -139,11 +149,22 @@ object Firebase {
         return null
     }
 
+    // Mengonversi string tanggal menjadi objek Date
     fun convertStringToDate(dateString: String): Date {
         val format = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
         return format.parse(dateString) ?: Date()
     }
 
+    // Menentukan apakah tanggal tertentu adalah hari ini
+    fun isToday(date: Date): Boolean {
+        val today = Calendar.getInstance()
+        val calendar = Calendar.getInstance().apply { time = date }
+        return today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                today.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    // Mendapatkan tiket perjalanan yang akan datang berdasarkan ID Pengguna
     fun getUpcomingTripTicket(userId : String) : Pair<Ticket?, PurchasedTicket?> {
         val purchasedTickets = purchasedTicketsListLiveData.value.orEmpty()
         val userPurchasedTickets = purchasedTickets.filter { it.userId == userId }
@@ -155,12 +176,11 @@ object Firebase {
         val currentDate = Calendar.getInstance().time
 
         val upcomingTrips = userTickets.filter {
-            val departureDate = convertStringToDate(it.departureDate)
-            departureDate >= currentDate
+            convertStringToDate(it.departureDate) >= currentDate || isToday(convertStringToDate(it.departureDate))
         }
 
-        val ticket = upcomingTrips.sortedBy { convertStringToDate(it.departureDate) }.firstOrNull()
-        val purchasedTicket = userPurchasedTickets.filter { it.ticketId == ticket?.id }.firstOrNull()
+        val ticket = upcomingTrips.minByOrNull { convertStringToDate(it.departureDate) }
+        val purchasedTicket = userPurchasedTickets.firstOrNull { it.ticketId == ticket?.id }
 
         return Pair(ticket, purchasedTicket)
     }

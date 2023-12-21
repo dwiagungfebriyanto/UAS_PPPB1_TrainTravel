@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+// Fragment untuk menampilkan profil pengguna dan mengelola aksi logout
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -49,21 +50,26 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            // Menampilkan informasi pengguna seperti nama, email, dan tanggal lahir
             txtUsername.text = prefManager.getUsername()
             txtEmail.text = prefManager.getUserEmail()
             txtBirthdate.text = prefManager.getUserBirthdate()
             txtFirstLetter.text = prefManager.getUsername().first().toString().uppercase()
 
+            // Menangani logout ketika tombol logout ditekan
             btnLogout.setOnClickListener {
                 logout()
             }
         }
 
+        // Mengamati jumlah tiket yang telah dibeli dan jumlah tiket favorit untuk ditampilkan di profil
         observeTickets()
     }
 
+     // Mengamati jumlah tiket yang telah dibeli dan jumlah tiket favorit untuk ditampilkan di profil
     private fun observeTickets() {
         Firebase.purchasedTicketsListLiveData.observe(viewLifecycleOwner) { purchasedTickets ->
+            // Memfilter tiket yang telah dibeli oleh pengguna
             val listPurchasedTickets = purchasedTickets.filter { it.userId == prefManager.getUserId() }
             binding.txtPurchasedTicketCount.text = listPurchasedTickets.size.toString()
         }
@@ -72,12 +78,15 @@ class ProfileFragment : Fragment() {
         val db = FavoriteTicketRoomDatabase.getDatabase(requireContext())
         mFavoriteTicketDao = db!!.favoriteTicketDuo()!!
 
+        // Mengamati jumlah tiket favorit yang dimiliki pengguna
         mFavoriteTicketDao.getFavoriteTicketLiveData(prefManager.getUserId()).observe(viewLifecycleOwner) { favoriteTickets ->
             binding.txtFavoriteTicketCount.text = favoriteTickets.size.toString()
         }
     }
 
+    // Menangani proses logout pengguna
     private fun logout() {
+        // Membuat dialog konfirmasi untuk logout
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_confirm)
         dialog.window!!.setLayout(
@@ -102,14 +111,21 @@ class ProfileFragment : Fragment() {
 
         // Menangani klik tombol Yes pada dialog
         yesTxt.setOnClickListener {
+            // Melakukan proses logout menggunakan FirebaseAuth
             firebaseAuth.signOut()
+
+            // Menghapus data pengguna dari PrefManager
             prefManager.clear()
+
+            // Menavigasi pengguna ke halaman login (AuthActivity)
             startActivity(Intent(context, AuthActivity::class.java))
+
+            // Menutup aktivitas saat ini
             requireActivity().finish()
             dialog.dismiss()
         }
 
-        // Menampilkan dialog
+        // Menampilkan dialog konfirmasi logout
         dialog.show()
     }
 }

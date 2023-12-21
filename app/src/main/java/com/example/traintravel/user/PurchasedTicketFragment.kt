@@ -11,6 +11,7 @@ import com.example.traintravel.data.Firebase
 import com.example.traintravel.databinding.FragmentPurchasedTicketBinding
 import com.example.traintravel.ticket.PurchasedTicketAdapter
 
+// Fragment untuk menampilkan tiket yang telah dibeli oleh pengguna
 class PurchasedTicketFragment : Fragment() {
     private var _binding: FragmentPurchasedTicketBinding? = null
     private val binding get() = _binding!!
@@ -31,10 +32,13 @@ class PurchasedTicketFragment : Fragment() {
         observeTickets()
     }
 
+    // Mengamati perubahan pada daftar tiket yang telah dibeli
     private fun observeTickets() {
         Firebase.purchasedTicketsListLiveData.observe(viewLifecycleOwner) { purchasedTickets ->
+            // Filter tiket berdasarkan ID pengguna
             val userPurchasedTicket = purchasedTickets.filter { it.userId == prefManager.getUserId() }.sortedByDescending { Firebase.convertStringToDate(it.purchaseDate) }
 
+            // Membuka Fragment Detail Tiket
             val adapterTicket = PurchasedTicketAdapter(userPurchasedTicket) { purchasedTicket ->
                 PurchasedTicketDetailFragment(purchasedTicket).show(parentFragmentManager, "Purchased Ticket Detail")
             }

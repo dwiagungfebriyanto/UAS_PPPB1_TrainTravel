@@ -14,18 +14,23 @@ class AdminProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Inisialisasi PrefManager
         prefManager = PrefManager.getInstance(this)
 
         with(binding) {
+            // Mengisi TextView dengan informasi pengguna
             txtUsername.text = prefManager.getUsername()
             txtEmail.text = prefManager.getUserEmail()
             txtBirthdate.text = prefManager.getUserBirthdate()
             txtRole.text = prefManager.getRole()
 
+            // Menangani klik tombol "Add Admin"
             btnAddAdmin.setOnClickListener {
                 AddAdminFragment().show(supportFragmentManager, "Add Admin")
             }
 
+            // Menangani klik tombol "Back"
             btnBack.setOnClickListener {
                 onBackPressed()
             }

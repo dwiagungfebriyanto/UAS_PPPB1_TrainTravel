@@ -31,6 +31,7 @@ class TicketFormActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
+            // Variabel untuk menyimpan nilai dari spinner
             var trainName = ""
             var departureStation = ""
             var destinationStation = ""
@@ -38,6 +39,7 @@ class TicketFormActivity : AppCompatActivity() {
             var departureTime = ""
             var arrivalTime = ""
 
+            // Mengatur adapter untuk spinner menggunakan data dari resources
             val trainNameArray = resources.getStringArray(R.array.train_name)
             val trainAdapter = ArrayAdapter<String>(this@TicketFormActivity, R.layout.spinner_item, trainNameArray)
             spinnerTrainName.adapter = trainAdapter
@@ -51,6 +53,7 @@ class TicketFormActivity : AppCompatActivity() {
             val classAdapter = ArrayAdapter<String>(this@TicketFormActivity, R.layout.spinner_item, classTypeArray)
             spinnerClass.adapter = classAdapter
 
+            // Listener untuk spinner Train Name
             spinnerTrainName.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     trainName = trainNameArray[position]
@@ -60,6 +63,7 @@ class TicketFormActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
+            // Listener untuk spinner Departure Station
             spinnerDeparture.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     departureStation = station[position]
@@ -72,6 +76,7 @@ class TicketFormActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
+            // Listener untuk spinner Destination Station
             spinnerDestination.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     destinationStation = station[position]
@@ -84,6 +89,7 @@ class TicketFormActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
+            // Listener untuk spinner Class
             spinnerClass.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     classType = classTypeArray[position]
@@ -93,6 +99,7 @@ class TicketFormActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
+            // Date Picker untuk Departure Date
             val calendarDate = Calendar.getInstance()
             val year = calendarDate.get(Calendar.YEAR)
             val month = calendarDate.get(Calendar.MONTH)
@@ -106,6 +113,7 @@ class TicketFormActivity : AppCompatActivity() {
                 datePicker.show()
             }
 
+            // Time Picker untuk Departure Time
             val calendarTime = Calendar.getInstance()
             val currentHour = calendarTime.get(Calendar.HOUR_OF_DAY)
             val currentMinute = calendarTime.get(Calendar.MINUTE)
@@ -122,6 +130,7 @@ class TicketFormActivity : AppCompatActivity() {
                 timePicker.show()
             }
 
+            // Time Picker untuk Arrival Time
             btnArrivalTime.setOnClickListener {
                 val timePicker = TimePickerDialog(this@TicketFormActivity, { _, hourOfDay, minute ->
                     arrivalTime = String.format("%02d:%02d", hourOfDay, minute)
@@ -132,6 +141,7 @@ class TicketFormActivity : AppCompatActivity() {
                 timePicker.show()
             }
 
+            // Jika membuka form untuk mengedit tiket
             if (intent.hasExtra("ticket")) {
                 val ticket = intent.getSerializableExtra("ticket") as Ticket
 
@@ -153,6 +163,7 @@ class TicketFormActivity : AppCompatActivity() {
                 val selectedClass = classTypeArray.indexOf(ticket.classType)
                 spinnerClass.setSelection(selectedClass)
 
+                // Listener untuk menyimpan perubahan data tiket
                 btnSave.setOnClickListener {
                     if (stationPrice != 0) {
                         val updatedTicket = Ticket(
@@ -173,6 +184,7 @@ class TicketFormActivity : AppCompatActivity() {
                     }
                 }
             } else {
+                // Jika membuka form untuk menambah tiket baru
                 btnSave.setOnClickListener {
                     if (stationPrice != 0 && btnDepartureDate.text != "" && btnDepartureTime.text != "" && btnArrivalTime.text != "") {
                         val newTicket = Ticket(
@@ -195,12 +207,14 @@ class TicketFormActivity : AppCompatActivity() {
                 }
             }
 
+            // Tombol untuk kembali ke halaman sebelumnya
             btnBack.setOnClickListener {
                 onBackPressed()
             }
         }
     }
 
+    // Fungsi untuk menghitung durasi perjalanan antara waktu keberangkatan dan kedatangan
     private fun calculateTripDuration(departureTime: String, arrivalTime: String): String {
         val format = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -226,6 +240,7 @@ class TicketFormActivity : AppCompatActivity() {
         return String.format("%d hour(s) %d minute(s)", hours, minutes)
     }
 
+    // Fungsi untuk mengupdate harga tiket saat ada perubahan
     private fun priceChanged() {
         price = trainPrice + stationPrice + classPrice
         binding.txtPrice.text = NumberFormat.getNumberInstance(Locale("id")).format(price)

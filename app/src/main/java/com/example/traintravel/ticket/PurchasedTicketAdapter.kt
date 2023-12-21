@@ -22,9 +22,12 @@ class PurchasedTicketAdapter (
     inner class ItemTicketViewHolder(private val binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(purchasedTicket : PurchasedTicket) {
             with(binding) {
+                // Mendapatkan informasi tiket dari Firebase berdasarkan ID tiket yang dibeli
                 val ticket = Firebase.getTicket(purchasedTicket.ticketId)
 
+                // Jika tiket ditemukan
                 if (ticket != null) {
+                    // Menetapkan informasi tiket ke tampilan
                     txtTrainName.text       = ticket.trainName
                     txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(purchasedTicket.totalPrice)
                     txtDeparture.text       = ticket.departureStation
@@ -35,10 +38,12 @@ class PurchasedTicketAdapter (
                     txtDate.text            = getDate(ticket.departureDate)
                 }
 
+                // Menangani klik pada item tiket yang dibeli
                 itemView.setOnClickListener {
                     onClickPurchasedTicket(purchasedTicket)
                 }
 
+                // Menyembunyikan ikon favorit dan tombol beli/edit tiket
                 icFavorite.visibility = View.GONE
                 btnBuyTicket.visibility = View.GONE
                 btnEditTicket.visibility = View.GONE
@@ -46,6 +51,7 @@ class PurchasedTicketAdapter (
         }
     }
 
+    // Mengonversi format tanggal
     private fun getDate(departuredDate : String) : String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())

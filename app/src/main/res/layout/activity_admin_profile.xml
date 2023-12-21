@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="20dp"
     android:orientation="vertical"
     tools:context=".admin.AdminProfileActivity">
@@ -15,7 +16,8 @@
             android:id="@+id/btn_back"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:padding="10dp"
+            android:paddingEnd="20dp"
+            android:paddingVertical="10dp"
             android:src="@drawable/baseline_arrow_back_ios_new_24"/>
         <TextView
             android:id="@+id/txt_admin_profile"
@@ -30,16 +32,26 @@
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txt_dec"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginVertical="20dp"
-        android:fontFamily="@font/inter"
-        android:text="This page displays your profile as an admin. You can also add a new admin by clicking the add admin button below."
-        android:textColor="#99000000"
-        android:textSize="16sp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#0D000000">
+
+        <TextView
+            android:id="@+id/txt_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:fontFamily="@font/inter"
+            android:drawableLeft="@drawable/baseline_info_outline_24"
+            android:drawablePadding="10dp"
+            android:text="This page displays your profile as an admin. You can also add a new admin by clicking the add admin button below."
+            android:textColor="#99000000"
+            android:textSize="16sp"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:layout_width="wrap_content"

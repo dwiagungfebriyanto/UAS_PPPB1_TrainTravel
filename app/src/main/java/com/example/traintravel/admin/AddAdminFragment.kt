@@ -33,10 +33,12 @@ class AddAdminFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         with(binding) {
+            // Mengatur aksi untuk tombol menampilkan pemilih tanggal
             btnBirthdate.setOnClickListener {
                 showDatePicker()
             }
 
+            // Mengatur aksi untuk tombol registrasi admin baru
             btnRegister.setOnClickListener {
                 val email = edtEmail.text.toString()
                 val username = edtUsername.text.toString()
@@ -47,10 +49,13 @@ class AddAdminFragment : BottomSheetDialogFragment() {
                     birthDate = selectedDate
                 )
 
+                // Memeriksa apakah semua data yang diperlukan telah diisi
                 if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
+                    // Membuat akun admin baru menggunakan Firebase Authentication
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                         val userId = firebaseAuth.currentUser?.uid
                         val userDocument = Firebase.usersCollectionRef.document(userId!!)
+                        // Menyimpan informasi admin baru ke Firestore
                         userDocument.set(newUser).addOnSuccessListener {
                             Toast.makeText(context, "Successfully created an admin account!", Toast.LENGTH_SHORT).show()
                             dismiss()
@@ -61,12 +66,14 @@ class AddAdminFragment : BottomSheetDialogFragment() {
                         Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
                 } else {
+                    // Menampilkan pesan kesalahan jika data belum lengkap
                     Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
+    // Menampilkan pemilih tanggal
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)

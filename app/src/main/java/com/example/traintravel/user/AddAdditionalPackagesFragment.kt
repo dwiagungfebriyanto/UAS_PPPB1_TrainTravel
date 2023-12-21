@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// Fragment untuk menambahkan paket tambahan pada pembelian tiket.
 class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDialogFragment() {
     private var _binding: FragmentAddAdditionalPackagesBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +34,8 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
     private var totalPrice = 0
     private var activePackages = mutableSetOf<String>()
     private val channelId = "SUCCESSFUL_PURCHASE"
-    private var notifId = 0
+    private val notifId = System.currentTimeMillis().toInt()
+    private val requestCode = System.currentTimeMillis().toInt()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +53,10 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
         val notifManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         with(binding) {
+            // Menetapkan harga tiket pada tampilan
             txtPrice.text = NumberFormat.getNumberInstance(Locale("id")).format(ticket.price)
 
+            // Menangani perubahan status pada toggle paket-paket tambahan
             toggleLunchBox.setOnCheckedChangeListener { _, isChecked ->
                 if (toggleLunchBox.isChecked) {
                     activePackages.add(toggleLunchBox.textOn.toString())
@@ -125,8 +129,12 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                 updateTotalPrice()
             }
 
+            // Menangani klik tombol "Buy Ticket"
             btnBuyTicket.setOnClickListener {
+                // Mengatur format tanggal pembelian tiket
                 val dateFormat = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+
+                // Membuat object PurchasedTicket
                 val purchasedTicket = PurchasedTicket(
                     userId = prefManager.getUserId(),
                     ticketId = ticket.id,
@@ -134,23 +142,26 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                     purchaseDate = dateFormat.format(Date()),
                     additionalPackages = activePackages.toList()
                 )
+
+                // Menyimpan tiket yang sudah dibeli
                 val isAdded = Firebase.addPurchasedTicket(purchasedTicket)
+
                 if (isAdded) {
+                    // Menampilkan toast jika tiket sudah pernah dibeli
                     Toast.makeText(context, "You have purchased this ticket!", Toast.LENGTH_SHORT).show()
                 } else {
                     val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         PendingIntent.FLAG_MUTABLE
                     } else { 0 }
 
-                    val notificationId = System.currentTimeMillis().toInt() + notifId
-                    notifId++
-
+                    // Membuat intent untuk SplashActivity dengan menyertakan ID tiket yang baru dibeli
                     val intent = Intent(requireContext(), SplashActivity::class.java)
                         .putExtra("ticketId", ticket.id)
                     val pendingIntent = PendingIntent.getActivity(
-                        requireContext(), 0, intent, flag
+                        requireContext(), requestCode, intent, flag
                     )
 
+                    // Membuat notifikasi untuk pembelian tiket berhasil
                     val builder = NotificationCompat.Builder(requireContext(), channelId)
                         .setSmallIcon(R.drawable.baseline_directions_transit_filled_24)
                         .setContentTitle("Ticket purchase successful!")
@@ -158,7 +169,7 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                         .setStyle(
                             NotificationCompat.InboxStyle()
                                 .addLine("User: ${prefManager.getUsername()}")
-                                .addLine("Total price: ${if (totalPrice == 0) ticket.price else totalPrice}")
+                                .addLine("Total price: Rp${NumberFormat.getNumberInstance(Locale("id")).format(if (totalPrice == 0) ticket.price else totalPrice)}")
                                 .addLine("Train name: ${ticket.trainName}")
                                 .addLine("Departure date: ${ticket.departureDate}")
                                 .addLine("Departure station: ${ticket.departureStation}")
@@ -172,10 +183,10 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
                         val notifChannel = NotificationChannel(channelId, "Successful Purchase", NotificationManager.IMPORTANCE_DEFAULT)
                         with(notifManager) {
                             createNotificationChannel(notifChannel)
-                            notify(notificationId, builder.build())
+                            notify(notifId, builder.build())
                         }
                     } else {
-                        notifManager.notify(notificationId, builder.build())
+                        notifManager.notify(notifId, builder.build())
                     }
                     dismiss()
                 }
@@ -183,6 +194,7 @@ class AddAdditionalPackagesFragment(private val ticket: Ticket) : BottomSheetDia
         }
     }
 
+    // Fungsi untuk memperbarui harga total berdasarkan paket-paket tambahan yang dipilih
     private fun updateTotalPrice() {
         var packagesPrice = 0
 

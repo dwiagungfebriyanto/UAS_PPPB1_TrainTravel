@@ -24,6 +24,7 @@ import com.example.traintravel.ticket.TicketDetailFragment
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+// Fragment untuk menampilkan daftar tiket favorit pengguna
 class FavoriteTicketFragment : Fragment() {
     private var _binding: FragmentFavoriteTicketBinding? = null
     private val binding get() = _binding!!
@@ -54,10 +55,13 @@ class FavoriteTicketFragment : Fragment() {
         getAllFavoriteTickets()
     }
 
+    // Mendapatkan semua tiket favorit pengguna dari database lokal dan menampilkan daftar tiket favorit
     private fun getAllFavoriteTickets() {
         mFavoriteTicketDao.getFavoriteTicketLiveData(prefManager.getUserId()).observe(viewLifecycleOwner) { favoriteTickets ->
             val adapterFavoriteTicket = FavoriteTicketAdapter(
-                favoriteTickets,
+                favoriteTickets
+                    // Tiket diurutkan terbalik berdasarkan departure date
+                    .sortedByDescending { Firebase.convertStringToDate(it.departureDate) },
                 { favoriteTicket ->
                     TicketDetailFragment(null, favoriteTicket).show(parentFragmentManager, "Ticket Detail")
                 },
@@ -79,6 +83,7 @@ class FavoriteTicketFragment : Fragment() {
         }
     }
 
+    // Menghapus tiket dari daftar favorit setelah mendapatkan konfirmasi dari pengguna
     private fun deleteFavoriteTicket(favoriteTicket: FavoriteTicket) {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_confirm)

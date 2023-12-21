@@ -22,9 +22,11 @@ import com.example.traintravel.data.Firebase
 import com.example.traintravel.data.Ticket
 import com.example.traintravel.databinding.FragmentBuyTicketBinding
 import com.example.traintravel.ticket.TicketDetailFragment
+import java.util.Calendar
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+// Fragment untuk menampilkan daftar tiket yang dapat dibeli.
 class BuyTicketFragment : Fragment() {
     private var _binding: FragmentBuyTicketBinding? = null
     private val binding get() = _binding!!
@@ -57,10 +59,15 @@ class BuyTicketFragment : Fragment() {
         getAllFavoriteTickets()
     }
 
+    // Mengamati perubahan pada daftar tiket dan menampilkan tiket yang dapat dibeli
     private fun observeTickets() {
         Firebase.ticketsListLiveData.observe(viewLifecycleOwner) { tickets ->
             adapterTicket = TicketAdapter(
-                tickets,
+                tickets
+                    // Filter berdasarkan departure date agar tiket yang kedaluwarsa tidak tampil
+                    .filter { Firebase.convertStringToDate(it.departureDate) >=  Calendar.getInstance().time}
+                    // Tiket diurutkan berdasarkan departure date
+                    .sortedBy { Firebase.convertStringToDate(it.departureDate) },
                 { ticket ->
                     TicketDetailFragment(ticket).show(parentFragmentManager, "Ticket Detail")
                 },
@@ -69,6 +76,7 @@ class BuyTicketFragment : Fragment() {
                 },
                 { ticket ->
                     if (!isOnTheFavoriteList(ticket)) {
+                        // Menambahkan tiket ke daftar favorit
                         insertFavoriteTicket(ticket)
                     } else {
                         Toast.makeText(context, "This ticket is already on your favorites list.", Toast.LENGTH_SHORT).show()
@@ -86,6 +94,7 @@ class BuyTicketFragment : Fragment() {
         }
     }
 
+    // Mendapatkan semua tiket favorit dari database lokal dan mengamati perubahan pada daftar tiket.
     fun getAllFavoriteTickets() {
         mFavoriteTicketDao.getFavoriteTicketLiveData(prefManager.getUserId()).observe(viewLifecycleOwner) { newListFavoriteTickets ->
             listFavoriteTickets = newListFavoriteTickets
@@ -94,6 +103,7 @@ class BuyTicketFragment : Fragment() {
         }
     }
 
+    // Memeriksa apakah suatu tiket sudah ada dalam daftar favorit.
     private fun isOnTheFavoriteList(ticket: Ticket) : Boolean {
         for (favoriteTicket in listFavoriteTickets) {
             if (ticket.id == favoriteTicket.ticketId) {
@@ -103,6 +113,7 @@ class BuyTicketFragment : Fragment() {
         return false
     }
 
+    // Memasukkan tiket ke dalam daftar favorit setelah mendapatkan konfirmasi dari pengguna.
     private fun insertFavoriteTicket(ticket: Ticket) {
         val favoriteTicket = FavoriteTicket(
             ticketId = ticket.id,

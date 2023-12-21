@@ -2,7 +2,6 @@ package com.example.traintravel.user
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -24,16 +23,20 @@ class UserActivity : AppCompatActivity() {
         prefManager = PrefManager.getInstance(this)
 
         with(binding) {
+            // Menghubungkan BottomNavigationView dengan NavController
             val navController = findNavController(R.id.nav_host_fragment)
             bottomNavigationView.setupWithNavController(navController)
         }
 
-        Log.d("UserActivity", intent.action.toString())
-
+        // Memeriksa apakah intent memiliki extra "ticketId"
         if (intent.hasExtra("ticketId")) {
-            Log.d("UserActivity", intent.getStringExtra("ticketId").toString())
+            // Mendapatkan ID tiket dari intent
             val ticketId = intent.getStringExtra("ticketId").toString()
+
+            // Mendapatkan objek PurchasedTicket dari Firebase berdasarkan ID tiket dan ID pengguna
             val purchasedTicket = Firebase.getPurchasedTicket(ticketId, prefManager.getUserId())
+
+            // Menampilkan detail tiket yang dibeli menggunakan fragment
             PurchasedTicketDetailFragment(purchasedTicket!!).show(supportFragmentManager, "Purchased Ticket Detail")
         }
     }

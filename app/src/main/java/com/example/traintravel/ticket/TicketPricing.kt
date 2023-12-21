@@ -1,6 +1,8 @@
 package com.example.traintravel.ticket
 
+// Object TicketPricing berisi data harga tiket dan paket tambahan.
 object TicketPricing {
+    // Map yang berisi pasangan stasiun ke harga tiketnya
     val ticketPriceMap = mapOf(
         Pair("Tugu Yogyakarta", "Gambir") to 150000,
         Pair("Tugu Yogyakarta", "Sudirman") to 160000,
@@ -36,6 +38,7 @@ object TicketPricing {
         Pair("Jatinegara", "Kroya") to 105000
     )
 
+    // Map yang berisi paket tambahan dan harganya
     val additionalPackages = mapOf(
         "Lunch box" to 25000,
         "Sit by the window" to 15000,
@@ -47,6 +50,7 @@ object TicketPricing {
         "Reclining seat" to 30000
     )
 
+    // Fungsi untuk mendapatkan harga tiket antara dua stasiun.
     fun getStationPrice(departureStation : String, arrivalStation : String) : Int {
         var ticketPrice = ticketPriceMap[Pair(departureStation, arrivalStation)] ?: 0
 
@@ -57,6 +61,7 @@ object TicketPricing {
         return ticketPrice
     }
 
+    // Fungsi untuk mendapatkan harga tiket berdasarkan nama kereta.
     fun getTrainPrice(trainName : String) : Int {
         return when(trainName) {
             "Arlina Express"        -> 10000
@@ -68,6 +73,7 @@ object TicketPricing {
         }
     }
 
+    // Fungsi untuk mendapatkan harga tiket berdasarkan jenis kelas.
     fun getClassPrice(classType : String) : Int {
         return when(classType) {
             "Economy"   -> 2000

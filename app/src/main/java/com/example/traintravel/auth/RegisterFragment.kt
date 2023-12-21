@@ -34,15 +34,19 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         val authActivity = requireActivity() as AuthActivity
+
         with(binding) {
+            // Navigasi ke layar login ketika tombol "Login" diklik
             btnToLogin.setOnClickListener {
                 authActivity.navigateToLogin()
             }
 
+            // Menampilkan dialog pemilih tanggal ketika tombol "Birthdate" diklik
             btnBirthdate.setOnClickListener {
                 showDatePicker()
             }
 
+            // Melakukan registrasi pengguna ketika tombol "Register" diklik
             btnRegister.setOnClickListener {
                 authActivity.progressBarVisibility(true)
 
@@ -55,10 +59,14 @@ class RegisterFragment : Fragment() {
                 )
 
                 if (email.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty() && selectedDate.isNotEmpty()) {
+                    // Memeriksa apakah pengguna sudah berusia 18 tahun atau lebih
                     if (age >= 18) {
+                        // Mencoba membuat pengguna baru di Firebase Authentication
                         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                             val userId = firebaseAuth.currentUser?.uid
                             val userDocument = Firebase.usersCollectionRef.document(userId!!)
+
+                            // Menyimpan data pengguna ke Firestore
                             userDocument.set(newUser).addOnSuccessListener {
                                 Toast.makeText(context, "Data saved! Please login!", Toast.LENGTH_SHORT).show()
                                 authActivity.navigateToLogin()
@@ -71,10 +79,12 @@ class RegisterFragment : Fragment() {
                             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                         }
                     } else {
+                        // Menampilkan pesan jika pengguna belum cukup umur untuk mendaftar
                         Toast.makeText(context, "You are not old enough to register!", Toast.LENGTH_SHORT).show()
                         authActivity.progressBarVisibility(false)
                     }
                 } else {
+                    // Menampilkan pesan jika formulir belum diisi lengkap
                     Toast.makeText(context, "Please fill out all required data!", Toast.LENGTH_SHORT).show()
                     authActivity.progressBarVisibility(false)
                 }
@@ -82,6 +92,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    // Mereset nilai pada input field
     private fun resetField() {
         with(binding) {
             edtEmail.setText("")
@@ -91,6 +102,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    // Menampilkan dialog pemilih tanggal
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         val yearNow = calendar.get(Calendar.YEAR)
@@ -98,6 +110,7 @@ class RegisterFragment : Fragment() {
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePicker = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+            // Menghitung usia pengguna berdasarkan tanggal lahir yang dipilih
             age = yearNow - year
             selectedDate = "$dayOfMonth/${month + 1}/$year"
             binding.btnBirthdate.text = selectedDate

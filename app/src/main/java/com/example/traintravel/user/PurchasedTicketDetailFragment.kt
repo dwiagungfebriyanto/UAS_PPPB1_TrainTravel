@@ -26,7 +26,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class PurchasedTicketDetailFragment(private val purchasedTicket : PurchasedTicket) : BottomSheetDialogFragment() {
+// Fragment untuk menampilkan detail tiket yang telah dibeli oleh pengguna
+class PurchasedTicketDetailFragment(private val purchasedTicket: PurchasedTicket) : BottomSheetDialogFragment() {
     private var _binding: FragmentPurchasedTicketDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var confirmationTxt: TextView
@@ -48,6 +49,7 @@ class PurchasedTicketDetailFragment(private val purchasedTicket : PurchasedTicke
         val ticket = Firebase.getTicket(purchasedTicket.ticketId)
 
         with(binding) {
+            // Mengatur tampilan gambar stasiun dengan efek pembulatan sudut
             val multi = MultiTransformation<Bitmap>(
                 CenterCrop(),
                 RoundedCornersTransformation(35, 0)
@@ -58,17 +60,19 @@ class PurchasedTicketDetailFragment(private val purchasedTicket : PurchasedTicke
                 .placeholder(R.drawable.img_placeholder)
                 .into(imgStation)
 
-            txtTrainName.text       = ticket?.trainName
-            txtPrice.text           = NumberFormat.getNumberInstance(Locale("id")).format(purchasedTicket.totalPrice)
-            txtDeparture.text       = ticket?.departureStation
-            txtDepartureTime.text   = ticket?.departureTime
-            txtDestination.text     = ticket?.destinationStation
-            txtArrivalTime.text     = ticket?.arrivalTime
-            txtClass.text           = ticket?.classType
-            txtDepartureDate.text   = getDate(ticket!!.departureDate)
-            txtTripDuration.text    = ticket.tripDuration
-            txtPurchasedDate.text   = getDate(purchasedTicket.purchaseDate)
+            // Mengisi informasi tiket pada tampilan
+            txtTrainName.text = ticket?.trainName
+            txtPrice.text = NumberFormat.getNumberInstance(Locale("id")).format(purchasedTicket.totalPrice)
+            txtDeparture.text = ticket?.departureStation
+            txtDepartureTime.text = ticket?.departureTime
+            txtDestination.text = ticket?.destinationStation
+            txtArrivalTime.text = ticket?.arrivalTime
+            txtClass.text = ticket?.classType
+            txtDepartureDate.text = getDate(ticket!!.departureDate)
+            txtTripDuration.text = ticket.tripDuration
+            txtPurchasedDate.text = getDate(purchasedTicket.purchaseDate)
 
+            // Menampilkan paket tambahan jika ada
             if (listAdditionalPackages.isNotEmpty()) {
                 txtEmptyPackages.visibility = View.GONE
                 if (listAdditionalPackages.contains("Lunch box")) { extraLunchBox.visibility = View.VISIBLE }
@@ -109,7 +113,7 @@ class PurchasedTicketDetailFragment(private val purchasedTicket : PurchasedTicke
 
                 // Menangani klik tombol Yes pada dialog
                 yesTxt.setOnClickListener {
-                    // Menghapus kontak dan menutup activity
+                    // Menghapus tiket yang telah dibeli dan menutup fragment
                     Firebase.deletePurchasedTicket(purchasedTicket)
                     Firebase.observePurchasedTicket()
                     Toast.makeText(context, "Ticket successfully deleted", Toast.LENGTH_SHORT).show()
@@ -121,16 +125,18 @@ class PurchasedTicketDetailFragment(private val purchasedTicket : PurchasedTicke
                 dialog.show()
             }
 
+            // Menutup fragment ketika tombol Close ditekan
             btnClose.setOnClickListener {
                 dismiss()
             }
         }
     }
 
-    private fun getDate(departuredDate : String) : String {
+    // Mengonversi format tanggal dari "dd/MM/yyyy" ke "d MMMM yyyy"
+    private fun getDate(departureDate: String): String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        val date: Date = inputFormat.parse(departuredDate) ?: Date()
+        val date: Date = inputFormat.parse(departureDate) ?: Date()
         return outputFormat.format(date)
     }
 }
