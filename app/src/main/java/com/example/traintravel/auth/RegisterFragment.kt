@@ -74,9 +74,11 @@ class RegisterFragment : Fragment() {
                                 resetField()
                             }.addOnFailureListener {
                                 Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                                authActivity.progressBarVisibility(false)
                             }
                         }.addOnFailureListener {
                             Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                            authActivity.progressBarVisibility(false)
                         }
                     } else {
                         // Menampilkan pesan jika pengguna belum cukup umur untuk mendaftar

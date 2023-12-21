@@ -22,9 +22,6 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Memantau perubahan data dari Firebase
-        Firebase.observeDataChanges()
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         prefManager = PrefManager.getInstance(requireContext())
         firebaseAuth = FirebaseAuth.getInstance()
@@ -39,7 +36,7 @@ class LoginFragment : Fragment() {
         with(binding) {
             // Beralih ke RegisterFragment ketika tombol "Register" diklik
             btnToRegister.setOnClickListener {
-                authActivity.navigateToREgister()
+                authActivity.navigateToRegister()
             }
 
             // Melakukan proses login ketika tombol "Login" diklik
@@ -58,6 +55,7 @@ class LoginFragment : Fragment() {
                     }.addOnFailureListener {
                         // Menampilkan pesan kesalahan saat login gagal
                         Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        authActivity.progressBarVisibility(false)
                     }
                 } else {
                     // Menampilkan pesan jika isian yang dibutuhkan tidak diisi

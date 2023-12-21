@@ -60,7 +60,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     // Method untuk navigasi ke halaman register
-    fun navigateToREgister() {
+    fun navigateToRegister() {
         viewPager2.setCurrentItem(0, true)
     }
 

@@ -28,10 +28,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/inter_bold"
+                    android:fontFamily="@font/inter_extrabold"
                     android:text="Discover\nInteresting Places"
                     android:textColor="@color/white"
-                    android:textSize="35sp" />
+                    android:textSize="38sp" />
 
                 <ImageView
                     android:layout_width="30dp"

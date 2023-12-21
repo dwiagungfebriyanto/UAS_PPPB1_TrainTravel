@@ -30,17 +30,7 @@
         android:id="@+id/profileFragment"
         android:name="com.example.traintravel.user.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_buyTicketFragment"
-            app:destination="@id/buyTicketFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_purchasedTicketFragment"
-            app:destination="@id/purchasedTicketFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_favoriteTicketFragment"
-            app:destination="@id/favoriteTicketFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/favoriteTicketFragment"
         android:name="com.example.traintravel.user.FavoriteTicketFragment"
